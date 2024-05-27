@@ -45,7 +45,7 @@ class System2D():
 
         matrix_to_multiply = np.array([
             [-self.m_B * self.g * self.l_com, -self. m_B * self.g * self.l_com, self.mu_theta, 0, 0],
-            [-self.m_B * self.g * self.l_com, -self.ki, -self.m_B * self.g * self.l_com, -self.kp, self.mu_phi, self.ki]
+            [-self.m_B * self.g * self.l_com -self.ki, -self.m_B * self.g * self.l_com, -self.kp, self.mu_phi, self.ki]
         ])
 
         result_matrix = np.dot(M_star_inv, matrix_to_multiply)
@@ -126,7 +126,7 @@ class System2D():
         and any control inputs.
         """
         x = np.array([self.theta, self.phi, self.theta_dot, self.phi_dot, self.x5])
-        x_next = self.A_dynamics @ x + self.B_dynamics @ u
+        x_next = self.A_dynamics @ x + self.B_dynamics * u
 
         self.theta, self.phi, self.theta_dot, self.phi_dot, x5 = x_next
 
@@ -166,9 +166,9 @@ class System2D():
             >>> print(observation_space)
             [theta_robot_value, theta_dot_robot_value, theta_ddot_robot_value, theta_dot_ball_value, theta_ddot_ball_value]
         """
-        return np.array[self.theta, self.theta_dot,
-        self.phi, self.phi_dot,
-        self.x5]
+        return [self.theta, self.theta_dot,
+            self.phi, self.phi_dot,
+            self.x5]
     
     def get_action_space(self):
         """
@@ -187,4 +187,4 @@ class System2D():
             >>> print(action_space)
             [-10, 10]
         """
-        return np.array([-100, 100], [-100, 100], [-100, 100], [-100, 100], [-100, 100])
+        return np.array([[-100, 100], [-100, 100], [-100, 100], [-100, 100], [-100, 100]])
